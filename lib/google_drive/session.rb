@@ -475,8 +475,7 @@ module GoogleDrive
               puts "WARN: retrying on #{response.code} (#{retry_count} / #{params[:retries]})"
               sleep 1
               next
-            end
-            if !(response.code =~ /^[23]/)
+            elsif !(response.code =~ /^[23]/)
               raise(
                 response.code == "401" ? AuthenticationError : GoogleDrive::Error,
                 "Response code #{response.code} for #{method} #{url}: " +
