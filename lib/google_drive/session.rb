@@ -469,7 +469,7 @@ module GoogleDrive
             if response.code == "401" && @on_auth_fail && @on_auth_fail.call()
               next
             end
-            if (response.code == "302" || response.code == "500") && params[:retries] && (params[:retries] > 0)
+            if !(response.code =~ /^[2]/) && params[:retries] && (params[:retries] > 0)
               retry_count += 1
               raise GoogleDrive::Error, "Too many retries" if (retry_count > params[:retries])
               puts "WARN: retrying on #{response.code} (#{retry_count} / #{params[:retries]})"
