@@ -449,6 +449,10 @@ module GoogleDrive
         end
 
         def request(method, url, params = {}) #:nodoc:
+          # NOTE all requests to google have a potential to randomly fail with
+          # 302s, 400s, and 500s
+          # see https://github.com/gimite/google-drive-ruby/issues/117
+          params[:retries] ||= 5
 
           # Always uses HTTPS.
           url = url.gsub(%r{^http://}, "https://")
